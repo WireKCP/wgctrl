@@ -8,19 +8,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/wirekcp/wireguard-go/ipc/namedpipe"
 	"golang.org/x/sys/windows"
-	"golang.zx2c4.com/wireguard/ipc/namedpipe"
 )
 
 // Expected prefixes when dealing with named pipes.
 const (
 	pipePrefix = `\\.\pipe\`
-	wgPrefix   = `ProtectedPrefix\Administrators\WireGuard\`
+	wgPrefix   = `ProtectedPrefix\Administrators\WireKCP\`
 )
 
 // dial is the default implementation of Client.dial.
 func dial(device string) (net.Conn, error) {
-	localSystem, err := windows.CreateWellKnownSid(windows.WinLocalSystemSid)
+	// localSystem, err := windows.CreateWellKnownSid(windows.WinLocalSystemSid)
+	localSystem, err := windows.CreateWellKnownSid(windows.WinBuiltinAdministratorsSid)
 	if err != nil {
 		return nil, err
 	}
